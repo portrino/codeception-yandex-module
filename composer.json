@@ -1,0 +1,15 @@
+{
+    "name": "portrino/codeception-yandex-module",
+    "description": "Provides validation of structured data via yandex API",
+    "authors": [
+        {
+            "name": "André Wuttig",
+            "email": "wuttig@portrino.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Codeception\\Module\\": "src"
+        }
+    }
+}
