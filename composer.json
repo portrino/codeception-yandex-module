@@ -7,6 +7,10 @@
             "email": "wuttig@portrino.de"
         }
     ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2",
+        "nixsolutions/yandex-php-library": "^3.0"
+    },
     "autoload": {
         "psr-4": {
             "Codeception\\Module\\": "src"

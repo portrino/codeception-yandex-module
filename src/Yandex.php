@@ -9,16 +9,19 @@ use Codeception\Lib\Interfaces\API;
 use Codeception\Lib\Interfaces\ConflictsWithModule;
 use Codeception\Lib\Interfaces\DependsOnModule;
 use Codeception\Module;
+use Codeception\Module\Yandex\StructuredData\ValidationResponse;
 use Codeception\TestInterface;
+use Codeception\Module\Yandex\StructuredData\StructuredDataClient;
 
 /**
- * Class Yandix
+ * Class Yandex
  * @package Codeception\Module
  */
-class Yandix extends Module implements DependsOnModule, API, ConflictsWithModule
+class Yandex extends Module implements DependsOnModule, API, ConflictsWithModule
 {
 
     protected $config = [
+        'apiKey' => '',
         'url' => ''
     ];
 
@@ -30,8 +33,8 @@ modules:
         - Yandix:
             depends: PhpBrowser
             url: http://localhost/api/
+            apiKey: xxxxx-xxxx-xxxx-xxxx-xxxxxxxx
 --
-Framework modules can be used for testing of API as well.
 EOF;
 
     /**
@@ -44,6 +47,11 @@ EOF;
      * @var InnerBrowser
      */
     protected $connectionModule;
+
+    /**
+     * @var StructuredDataClient
+     */
+    protected $structuredDataClient;
 
     public $params = [];
     public $response = "";
@@ -82,6 +90,11 @@ EOF;
                 $this->connectionModule->_setConfig(['url' => $this->config['url']]);
             }
         }
+
+        if (!isset($this->config['apiKey'])) {
+            throw new ModuleException($this, "ApiKey is empty. Please get one from: https://developer.tech.yandex.ru");
+        }
+        $this->structuredDataClient = new StructuredDataClient($this->config['apiKey']);
     }
 
     protected function getRunningClient()
@@ -95,10 +108,13 @@ EOF;
     /**
      * @return bool
      */
-    public function seeResponseContainsJsonLdMarkup()
+    public function seeResponseContainsValidJsonLdMarkup()
     {
         $responseContent = $this->connectionModule->_getResponseContent();
-        \PHPUnit_Framework_Assert::assertNotEmpty($responseContent, 'response does not contain json+ld empty');
+        $validationResponse = $this->structuredDataClient->validateHtml($responseContent);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $validationResponse->isValid(ValidationResponse::JSONLD),
+            implode(PHP_EOL, $validationResponse->getErrorsFormatted(ValidationResponse::JSONLD))
+        );
     }
-
 }
