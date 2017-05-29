@@ -3,7 +3,6 @@
 /**
  * @namespace
  */
-
 namespace Codeception\Module\Yandex\StructuredData;
 
 use GuzzleHttp\Exception\ClientException;
@@ -69,8 +68,8 @@ class StructuredDataClient extends AbstractServiceClient
                 'apikey' => $this->getApiKey(),
                 'id' => md5(uniqid()),
                 'lang' => 'en',
-                'only_errors' => true,
-                'pretty' => false
+                'only_errors' => 'true',
+                'pretty' => 'false'
             ]
         );
         $url = $this->getServiceUrl($resource) . '?' . $query;

@@ -76,8 +76,10 @@ class ValidationResponse
     public function isValid($format = '')
     {
         $result = true;
+        $data = $this->getData();
+
         if ($format === '') {
-            foreach ($this->getData() as $formatData) {
+            foreach ($data as $formatData) {
                 if (is_array($formatData)) {
                     foreach ($formatData as $singleFormatData) {
                         if (isset($singleFormatData['#error'])) {
@@ -88,7 +90,6 @@ class ValidationResponse
                 }
             }
         } else {
-            $data = $this->getData();
             if (isset($data[$format])) {
                 $formatData = $data[$format];
                 foreach ($formatData as $singleFormatData) {
@@ -109,8 +110,9 @@ class ValidationResponse
     public function getErrors($format = '')
     {
         $result = [];
+        $data = $this->getData();
         if ($format === '') {
-            foreach ($this->getData() as $formatData) {
+            foreach ($data as $formatData) {
                 if (is_array($formatData)) {
                     foreach ($formatData as $singleFormatData) {
                         if (isset($singleFormatData['#error'])) {
@@ -126,7 +128,6 @@ class ValidationResponse
                 }
             }
         } else {
-            $data = $this->getData();
             if (isset($data[$format])) {
                 $formatData = $data[$format];
                 foreach ($formatData as $singleFormatData) {

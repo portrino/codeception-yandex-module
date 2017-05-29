@@ -108,6 +108,19 @@ EOF;
     /**
      * @return bool
      */
+    public function seeResponseContainsValidMarkup()
+    {
+        $responseContent = $this->connectionModule->_getResponseContent();
+        $validationResponse = $this->structuredDataClient->validateHtml($responseContent);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $validationResponse->isValid(),
+            implode(PHP_EOL, $validationResponse->getErrorsFormatted())
+        );
+    }
+
+    /**
+     * @return bool
+     */
     public function seeResponseContainsValidJsonLdMarkup()
     {
         $responseContent = $this->connectionModule->_getResponseContent();
@@ -115,6 +128,45 @@ EOF;
         \PHPUnit_Framework_Assert::assertTrue(
             $validationResponse->isValid(ValidationResponse::JSONLD),
             implode(PHP_EOL, $validationResponse->getErrorsFormatted(ValidationResponse::JSONLD))
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function seeResponseContainsValidMicrodataMarkup()
+    {
+        $responseContent = $this->connectionModule->_getResponseContent();
+        $validationResponse = $this->structuredDataClient->validateHtml($responseContent);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $validationResponse->isValid(ValidationResponse::MICRODATA),
+            implode(PHP_EOL, $validationResponse->getErrorsFormatted(ValidationResponse::MICRODATA))
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function seeResponseContainsValidMicroformatMarkup()
+    {
+        $responseContent = $this->connectionModule->_getResponseContent();
+        $validationResponse = $this->structuredDataClient->validateHtml($responseContent);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $validationResponse->isValid(ValidationResponse::MICROFORMAT),
+            implode(PHP_EOL, $validationResponse->getErrorsFormatted(ValidationResponse::MICROFORMAT))
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function seeResponseContainsValidRdfaMarkup()
+    {
+        $responseContent = $this->connectionModule->_getResponseContent();
+        $validationResponse = $this->structuredDataClient->validateHtml($responseContent);
+        \PHPUnit_Framework_Assert::assertTrue(
+            $validationResponse->isValid(ValidationResponse::RDFA),
+            implode(PHP_EOL, $validationResponse->getErrorsFormatted(ValidationResponse::RDFA))
         );
     }
 }
