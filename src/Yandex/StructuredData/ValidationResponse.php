@@ -3,6 +3,7 @@
 /**
  * @namespace
  */
+
 namespace Codeception\Module\Yandex\StructuredData;
 
 /**
@@ -14,7 +15,7 @@ class ValidationResponse
     const MICROFORMAT = 'microformat';
     const RDFA = 'rdfa';
     const MICRODATA = 'microdata';
-    const JSONLD = 'json-ld';
+    const JSONLD = 'json_ld';
 
     /**
      * @var string
@@ -59,6 +60,36 @@ class ValidationResponse
     public function getData(): array
     {
         return $this->data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDataWithReplacedKeys(): array
+    {
+        $data = $this->replaceSpecialCharsInKeys($this->data);
+        return $data;
+    }
+
+    /**
+     * @param array $input
+     * @return array
+     */
+    protected function replaceSpecialCharsInKeys(array $input)
+    {
+        $return = [];
+        foreach ($input as $key => $value) {
+            $escapers = ['\\', '/', '\'', '\n', '\r', '\t', '\x08', '\x0c', '.', '-', ':', '@'];
+            $replacements = ['__', '_', '_', '\\n', '\\r', '\\t', '\\f', '\\b', '_', '_', '_', '_'];
+            $key = str_replace($escapers, $replacements, $key);
+
+            if (is_array($value)) {
+                $value = $this->replaceSpecialCharsInKeys($value);
+            }
+
+            $return[$key] = $value;
+        }
+        return $return;
     }
 
     /**

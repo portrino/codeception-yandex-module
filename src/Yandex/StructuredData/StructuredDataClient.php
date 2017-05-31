@@ -57,10 +57,10 @@ class StructuredDataClient extends AbstractServiceClient
     }
 
     /**
-     *
+     * @param bool $onlyErrors
      * @return string
      */
-    protected function getValidateHtmlUrl()
+    protected function getValidateHtmlUrl($onlyErrors = true)
     {
         $resource = 'document_parser';
         $query = http_build_query(
@@ -68,7 +68,7 @@ class StructuredDataClient extends AbstractServiceClient
                 'apikey' => $this->getApiKey(),
                 'id' => md5(uniqid()),
                 'lang' => 'en',
-                'only_errors' => 'true',
+                'only_errors' => $onlyErrors ? 'true' : 'false',
                 'pretty' => 'false'
             ]
         );
@@ -81,14 +81,15 @@ class StructuredDataClient extends AbstractServiceClient
      * Validates the $html against the Yandex API
      *
      * @param string $html
+     * @param bool $onlyErrors
      *
      * @return ValidationResponse|boolean
      *
      * @throws ForbiddenException
      */
-    public function validateHtml($html)
+    public function validateHtml($html, $onlyErrors = true)
     {
-        $url = $this->getValidateHtmlUrl();
+        $url = $this->getValidateHtmlUrl($onlyErrors);
         $response = $this->sendRequest(
             'POST',
             $url,

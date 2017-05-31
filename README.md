@@ -54,4 +54,7 @@ Update Codeception build
   // validate only Rdfa
   $I->seeResponseContainsValidRdfaMarkup();
   
+  // grab the Yandex API response 
+  $I->grabStructuredDataFromApiResponse()['json-ld'];
+  
 ```

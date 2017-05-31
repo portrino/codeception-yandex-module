@@ -12,6 +12,7 @@ use Codeception\Module;
 use Codeception\Module\Yandex\StructuredData\ValidationResponse;
 use Codeception\TestInterface;
 use Codeception\Module\Yandex\StructuredData\StructuredDataClient;
+use Codeception\Util\JsonArray;
 
 /**
  * Class Yandex
@@ -103,6 +104,32 @@ EOF;
             throw new ModuleException($this, "Response is empty. Use `\$I->sendXXX()` methods to send HTTP request");
         }
         return $this->client;
+    }
+
+    /**
+     * @return array Array of matching items
+     * @throws \Exception
+     */
+    public function grabStructuredDataFromApiResponse()
+    {
+        $responseContent = $this->connectionModule->_getResponseContent();
+        $validationResponse = $this->structuredDataClient->validateHtml($responseContent, false);
+
+        return $validationResponse->getData();
+    }
+
+    /**
+     * @param string $jsonPath
+     * @return array Array of matching items
+     * @throws \Exception
+     */
+    public function grabStructuredDataFromApiResponseByJsonPath($jsonPath)
+    {
+        $responseContent = $this->connectionModule->_getResponseContent();
+        $validationResponse = $this->structuredDataClient->validateHtml($responseContent, false);
+
+        return (new JsonArray(json_encode($validationResponse->getDataWithReplacedKeys())))
+            ->filterByJsonPath($jsonPath);
     }
 
     /**
