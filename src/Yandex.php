@@ -18,7 +18,7 @@ use Codeception\Util\JsonArray;
  * Class Yandex
  * @package Codeception\Module
  */
-class Yandex extends Module implements DependsOnModule, API, ConflictsWithModule
+class Yandex extends Module implements DependsOnModule, API
 {
 
     protected $config = [
@@ -68,11 +68,6 @@ EOF;
         $this->params = [];
         $this->response = "";
         $this->connectionModule->headers = [];
-    }
-
-    public function _conflicts()
-    {
-        return 'Codeception\Lib\Interfaces\API';
     }
 
     public function _depends()
