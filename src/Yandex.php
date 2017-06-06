@@ -130,7 +130,7 @@ EOF;
     /**
      * @return bool
      */
-    public function seeResponseContainsValidMarkup()
+    public function seeResponseContainsValidStructuredDataMarkup()
     {
         $responseContent = $this->connectionModule->_getResponseContent();
         $validationResponse = $this->structuredDataClient->validateHtml($responseContent);

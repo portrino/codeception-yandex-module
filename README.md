@@ -1,6 +1,22 @@
 # Codeception Yandex Module
 
-This package provides validation of structured data via yandex API
+This package provides validation of responses via [**Structured data validator API**](https://tech.yandex.com/validator/) 
+from Yandex. You can automatically check if your embedded [structured data](https://developers.google.com/search/docs/guides/intro-structured-data) 
+markup (aka semantic markup) is correct based on the current vocabularies like [schema.org](http://schema.org/). 
+
+> To transmit data to the API, you specify the HTML code or URL of the page. After completing validation, the API outputs 
+> the structured data extracted from the page in JSON format, > along with the codes of any errors detected. The following 
+> syntaxes are currently supported: JSON-LD, RDFa, microdata, and microformats.
+
+*Source: https://tech.yandex.com/validator/*
+
+With this module you are able to automate tests for semantic data validation in your cests via codeception. 
+You save time during development of new features, because you do not have to copy your markup manually into the
+[structured data testing tool](https://search.google.com/structured-data/testing-tool) or 
+[structured data validator](https://webmaster.yandex.com/tools/microtest/) when checking if some new feature or bugfix
+ break your semantic markup.
+ 
+You also can use this module for automating structured data validation for large quantities of pages.
 
 ## Installation
 
@@ -44,7 +60,7 @@ Update Codeception build
   $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK); // 200
   
   // validate all
-  $I->seeResponseContainsValidMarkup();
+  $I->seeResponseContainsValidStructuredDataMarkup();
   // validate only JSON+LD
   $I->seeResponseContainsValidJsonLdMarkup();
   // validate only Microdata
@@ -58,14 +74,96 @@ Update Codeception build
   // @see: https://tech.yandex.com/validator/doc/dg/concepts/response_standart-docpage/
   $data = $I->grabStructuredDataFromApiResponse()['json-ld'];
   
-  
-  $data = $I->grabStructuredDataFromApiResponseByJsonPath()['json-ld'];
-  
   // grab the data from Yandex API response via jsonPath 
   // !Important: All chars like . // / and - are replaced by _ to make jsonPath working! 
   $I->assertEquals(
       'foo.com',
       $I->grabStructuredDataFromApiResponseByJsonPath('json_ld.0.http___schema_org_name.0._value')[0]
   );
+  
+```
+
+### Methods
+
+#### seeResponseContainsValidStructuredDataMarkup()
+
+Validates the current response from `$I->amOnPage('/foo/bar/');` against the structured data validator API and checks 
+all supported formats like: **JSON-LD, RDFa, microdata, and microformats**.
+
+```php
+  $I->seeResponseContainsValidStructuredDataMarkup();
+  
+```
+
+#### seeResponseContainsValidJsonLdMarkup()
+
+Validates the current response from `$I->amOnPage('/foo/bar/');` against the structured data validator API and checks 
+only the data which is in **JSON-LD** format.
+
+```php
+  $I->seeResponseContainsValidJsonLdMarkup();
+  
+```
+
+#### seeResponseContainsValidMicrodataMarkup()
+
+Validates the current response from `$I->amOnPage('/foo/bar/');` against the structured data validator API and checks 
+only the data which is in **microdata** format.
+
+```php
+  $I->seeResponseContainsValidMicrodataMarkup();
+  
+```
+
+#### seeResponseContainsValidMicroformatMarkup()
+
+Validates the current response from `$I->amOnPage('/foo/bar/');` against the structured data validator API and checks 
+only the data which is in **microformat** format.
+
+```php
+  $I->seeResponseContainsValidMicroformatMarkup();
+  
+```
+
+#### seeResponseContainsValidRdfaMarkup()
+
+Validates the current response from `$I->amOnPage('/foo/bar/');` against the structured data validator API and checks 
+only the data which is in **RDFa** format.
+
+```php
+  $I->seeResponseContainsValidRdfaMarkup();
+  
+```
+
+#### grabStructuredDataFromApiResponse()
+
+Grab the structured data from the current response and it returns it as array. Please have a look at https://tech.yandex.com/validator/doc/dg/concepts/response_standart-docpage/ 
+for information about the standard response format of the yandex API.
+
+```php
+  $data = $I->grabStructuredDataFromApiResponse();
+  
+```
+
+#### grabStructuredDataFromApiResponseByJsonPath()
+
+**Experimental!!!** 
+
+Grab the structured data from the current response by jsonPath query syntax with the help of [JSONPath PHP Package](https://github.com/FlowCommunications/JSONPath). 
+All "special" chars like: 
+
+* . 
+* // 
+* / 
+* - 
+* :
+* @
+* '
+* \
+
+are replaced in json response from yandex structured data validator API by _ to make jsonPath working! 
+
+```php
+  $data = $I->grabStructuredDataFromApiResponseByJsonPath('json_ld.0.http___schema_org_name.0._value');
   
 ```
