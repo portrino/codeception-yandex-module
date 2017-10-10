@@ -1,10 +1,17 @@
 <?php
-
-/**
- * @namespace
- */
-
 namespace Codeception\Module\Yandex\StructuredData;
+
+/*
+ * This file is part of the Codeception Yandex Module project
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read
+ * LICENSE file that was distributed with this source code.
+ *
+ */
 
 /**
  * Class ValidationResponse
@@ -15,7 +22,7 @@ class ValidationResponse
     const MICROFORMAT = 'microformat';
     const RDFA = 'rdfa';
     const MICRODATA = 'microdata';
-    const JSONLD = 'json_ld';
+    const JSONLD = 'json-ld';
 
     /**
      * @var string
@@ -67,7 +74,7 @@ class ValidationResponse
      */
     public function getDataWithReplacedKeys(): array
     {
-        $data = $this->replaceSpecialCharsInKeys($this->data);
+        $data = $this->replaceSpecialCharsInKeys($this->getData());
         return $data;
     }
 

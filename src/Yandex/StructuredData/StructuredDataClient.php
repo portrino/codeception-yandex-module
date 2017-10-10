@@ -1,9 +1,17 @@
 <?php
-
-/**
- * @namespace
- */
 namespace Codeception\Module\Yandex\StructuredData;
+
+/*
+ * This file is part of the Codeception Yandex Module project
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read
+ * LICENSE file that was distributed with this source code.
+ *
+ */
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
@@ -83,12 +91,11 @@ class StructuredDataClient extends AbstractServiceClient
      * @param string $html
      * @param bool $onlyErrors
      *
-     * @return ValidationResponse|boolean
-     *
-     * @throws ForbiddenException
+     * @return bool|ValidationResponse
      */
     public function validateHtml($html, $onlyErrors = true)
     {
+        $result = false;
         $url = $this->getValidateHtmlUrl($onlyErrors);
         $response = $this->sendRequest(
             'POST',
@@ -100,9 +107,9 @@ class StructuredDataClient extends AbstractServiceClient
         );
 
         if ($response->getStatusCode() === 200 || $response->getStatusCode() === 204) {
-            return $this->parseValidateResponse($response);
+            $result = $this->parseValidateResponse($response);
         }
-        return false;
+        return $result;
     }
 
     /**
