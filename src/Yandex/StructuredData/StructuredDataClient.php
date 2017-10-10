@@ -15,6 +15,7 @@ namespace Codeception\Module\Yandex\StructuredData;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
 use Yandex\Common\AbstractServiceClient;
 use Yandex\Common\Exception\ForbiddenException;
@@ -97,7 +98,7 @@ class StructuredDataClient extends AbstractServiceClient
     {
         $result = false;
         $url = $this->getValidateHtmlUrl($onlyErrors);
-        $response = $this->sendRequest(
+        $response = $this->request(
             'POST',
             $url,
             [
@@ -106,17 +107,18 @@ class StructuredDataClient extends AbstractServiceClient
             ]
         );
 
-        if ($response->getStatusCode() === 200 || $response->getStatusCode() === 204) {
+        if ($response !== null && ($response->getStatusCode() === 200 || $response->getStatusCode() === 204)) {
             $result = $this->parseValidateResponse($response);
         }
+
         return $result;
     }
 
     /**
-     * @param Response $response
+     * @param ResponseInterface $response
      * @return ValidationResponse
      */
-    protected function parseValidateResponse(Response $response)
+    protected function parseValidateResponse(ResponseInterface $response)
     {
         $responseData = $response->getBody();
         $responseObject = json_decode($responseData, true);
@@ -139,25 +141,26 @@ class StructuredDataClient extends AbstractServiceClient
      * @param string|UriInterface $uri URI object or string.
      * @param array $options Request options to apply.
      *
-     * @return Response
+     * @return null|ResponseInterface
      *
      * @throws ForbiddenException
      * @throws DictionaryException
      */
-    protected function sendRequest($method, $uri, array $options = [])
+    protected function request($method, $uri, array $options = [])
     {
         try {
             $response = $this->getClient()->request($method, $uri, $options);
         } catch (ClientException $ex) {
             $response = $ex->getResponse();
-            $code = $response->getStatusCode();
-            $message = $response->getReasonPhrase();
+            if ($response) {
+                $code = $response->getStatusCode();
+                $message = $response->getReasonPhrase();
 
-            if ($code === 403) {
-                throw new ForbiddenException($message);
+                if ($code === 403) {
+                    throw new ForbiddenException($message);
+                }
             }
         }
-
         return $response;
     }
 }
