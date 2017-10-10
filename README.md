@@ -1,8 +1,9 @@
 # Codeception Yandex Module
 
 [![Build Status](https://travis-ci.org/portrino/codeception-yandex-module.svg?branch=master)](https://travis-ci.org/portrino/codeception-yandex-module)
-[![Code Climate](https://codeclimate.com/github/portrino/codeception-yandex-module/badges/gpa.svg)](https://codeclimate.com/github/portrino/codeception-yandex-module)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f3495eebb58cf8b50065/maintainability)](https://codeclimate.com/github/portrino/codeception-yandex-module/maintainability)
 [![Test Coverage](https://codeclimate.com/github/portrino/codeception-yandex-module/badges/coverage.svg)](https://codeclimate.com/github/portrino/codeception-yandex-module/coverage)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f3495eebb58cf8b50065/test_coverage)](https://codeclimate.com/github/portrino/codeception-yandex-module/test_coverage)
 [![Issue Count](https://codeclimate.com/github/portrino/codeception-yandex-module/badges/issue_count.svg)](https://codeclimate.com/github/portrino/codeception-yandex-module)
 [![Latest Stable Version](https://poser.pugx.org/portrino/codeception-yandex-module/v/stable)](https://packagist.org/packages/portrino/codeception-yandex-module)
 [![Total Downloads](https://poser.pugx.org/portrino/codeception-yandex-module/downloads)](https://packagist.org/packages/portrino/codeception-yandex-module)
