@@ -1,5 +1,13 @@
 # Codeception Yandex Module
 
+[![Build Status](https://travis-ci.org/portrino/codeception-yandex-module.svg?branch=master)](https://travis-ci.org/portrino/codeception-yandex-module)
+[![Code Climate](https://codeclimate.com/github/portrino/codeception-yandex-module/badges/gpa.svg)](https://codeclimate.com/github/portrino/codeception-yandex-module)
+[![Test Coverage](https://codeclimate.com/github/portrino/codeception-yandex-module/badges/coverage.svg)](https://codeclimate.com/github/portrino/codeception-yandex-module/coverage)
+[![Issue Count](https://codeclimate.com/github/portrino/codeception-yandex-module/badges/issue_count.svg)](https://codeclimate.com/github/portrino/codeception-yandex-module)
+[![Latest Stable Version](https://poser.pugx.org/portrino/codeception-yandex-module/v/stable)](https://packagist.org/packages/portrino/codeception-yandex-module)
+[![Total Downloads](https://poser.pugx.org/portrino/codeception-yandex-module/downloads)](https://packagist.org/packages/portrino/codeception-yandex-module)
+
+
 This package provides validation of responses via [**Structured data validator API**](https://tech.yandex.com/validator/) 
 from Yandex. You can automatically check if your embedded [structured data](https://developers.google.com/search/docs/guides/intro-structured-data) 
 markup (aka semantic markup) is correct based on the current vocabularies like [schema.org](http://schema.org/). 
