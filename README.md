@@ -176,3 +176,12 @@ are replaced in json response from yandex structured data validator API by _ to 
   $data = $I->grabStructuredDataFromApiResponseByJsonPath('json_ld.0.http___schema_org_name.0._value');
   
 ```
+
+## Authors
+
+![](https://avatars0.githubusercontent.com/u/726519?s=40&v=4)
+
+* **André Wuttig** - *Initial work, Unit Tests* - [aWuttig](https://github.com/aWuttig)
+
+See also the list of [contributors](https://github.com/portrino/codeception-yandex-module/graphs/contributors) who participated in this project.
+
